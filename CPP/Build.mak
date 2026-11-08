@@ -26,14 +26,14 @@ O=o
 
 
 !IF "$(PLATFORM)" == "x64"
-MY_ML = ml64 -WX
+MY_ML = nasm -fwin64
 #-Dx64
 !ELSEIF "$(PLATFORM)" == "arm64"
 MY_ML = armasm64
 !ELSEIF "$(PLATFORM)" == "arm"
 MY_ML = armasm -WX
 !ELSE
-MY_ML = ml -WX
+MY_ML = nasm -fwin32
 # -DABI_CDECL
 !ENDIF
 
@@ -60,7 +60,7 @@ COMPL_ASM = $(MY_ML) $** $O/$(*B).obj
 !ELSEIF "$(PLATFORM)" == "arm64"
 COMPL_ASM = $(MY_ML) $** $O/$(*B).obj
 !ELSE
-COMPL_ASM = $(MY_ML) -c -Fo$O/ $**
+COMPL_ASM = $(MY_ML) -I$(*D) -o $O/$(*B).obj $**
 !ENDIF
 
 CFLAGS_c_switch = -c -Fo$O/
